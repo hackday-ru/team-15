@@ -78,3 +78,10 @@ def getUser():
     user = g.user
     return render_template('user.html',
         user=user)
+
+@app.route('/events')
+def events():
+    user = g.user
+    return render_template('events.html',
+        title = 'События',
+        user = user)
