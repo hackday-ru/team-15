@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- fake data -->
+<script>
+    var data = {
+        labels: ["Василий", "Аркадий", "Писюн", "Дима"],
+        datasets: [
+            {
+                label: "Съел",
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,0.8)",
+                highlightFill: "rgba(220,220,220,0.75)",
+                highlightStroke: "rgba(220,220,220,1)",
+                data: [65, 59, 80, 81]
+            },
+            {
+                label: "Заплатил",
+                fillColor: "rgba(151,187,205,0.5)",
+                strokeColor: "rgba(151,187,205,0.8)",
+                highlightFill: "rgba(151,187,205,0.75)",
+                highlightStroke: "rgba(151,187,205,1)",
+                data: [28, 48, 40, 19]
+            }
+        ]
+    };
+
+
+    var consumes = {
+        labels: ["Ананасики", "Колбаска", "Огурцы", "Мясо", "Сок", "Минералка", "Виноград"],
+        datasets: [
+            {
+                label: "Покупки",
+                fillColor: "rgba(151,187,205,0.2)",
+                strokeColor: "rgba(151,187,205,1)",
+                pointColor: "rgba(151,187,205,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(151,187,205,1)",
+                data: [65, 59, 90, 81, 56, 55, 40]
+            }
+        ]
+    };
+
+</script>
+
+<div class="container">
+    <div class="row">
+    <h1>Новый год. Статистика по празднику</h1>
+        </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Съел/Потратил</h4>
+            <canvas id="whowhere" width="400" height="400"></canvas>
+        </div>
+        <div class="col-md-6">
+            <h4>На что тратили</h4>
+            <canvas id="consumes" width="400" height="400"></canvas>
+        </div>
+    </div>
+    <script>
+        var ctx = document.getElementById("whowhere").getContext("2d");
+        var myBarChart = new Chart(ctx).Bar(data);
+
+        var ctx2 = document.getElementById("consumes").getContext("2d");
+        var myRadarChart = new Chart(ctx2).Radar(consumes);
+
+    </script>
+
+</hxdiv>
+
+{% endblock %}
