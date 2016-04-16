@@ -5,8 +5,7 @@ ROLE_ADMIN = 1
 
 
 class User(db.Model):
-    def __init__(self, id1, nickname, email):
-        self.id = id1
+    def __init__(self, nickname, email):
         self.nickname = nickname
         self.email = email
 
