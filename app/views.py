@@ -70,3 +70,11 @@ def after_login(resp):
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/events')
+def events():
+    user = g.user
+    return render_template('events.html',
+        title = 'События',
+        user = user)
+
