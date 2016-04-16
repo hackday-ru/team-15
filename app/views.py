@@ -5,7 +5,7 @@ from app import app, db, lm, oid
 from app.models import User, Event, Participant, Friends, Item, Customers, ROLE_USER
 import json
 
-from app.Utils import Debt, EventItem, build_event, create_event
+from app.Utils import Debt, EventItem, build_event, create_event, create_item
 
 @lm.user_loader
 def load_user(id):
@@ -98,7 +98,7 @@ def events():
                            events=[x.Event for x in q], form=form)
 
 
-@app.route('/event/<int:page>')
+@app.route('/event/<int:page>', methods=['GET', 'POST'])
 @login_required
 def getEvent(page):
     from app.users_forms import NewItemForm
@@ -106,7 +106,8 @@ def getEvent(page):
     user = g.user
 
     if form.is_submitted():
-        print(form.data['name'], form.data['language'])
+        create_item(form.data['goodName'], form.data['cost'], page, user, form.data['language'])
+
     res = build_event(page)
     if res is None:
         return render_template('404.html') #TODO 404
