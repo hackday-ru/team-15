@@ -1,0 +1,4 @@
+app/__pycache__
+.idea
+flask/
+__pycache__
