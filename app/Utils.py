@@ -43,3 +43,14 @@ def create_event(name, participants):
     for participant in participants:
         db.session.add(Participant(participant, event.id))
     db.session.commit()
+
+
+def create_item(name, cost, event_id, owner, participants):
+    from app import db
+    item = Item(name, cost, event_id, owner.id)
+    db.session.add(item)
+    db.session.flush()
+    db.session.refresh(item)
+    for participant in participants:
+        db.session.add(Customers(item.id, participant))
+    db.session.commit()
