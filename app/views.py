@@ -4,7 +4,8 @@ from flask.ext.login import login_user, logout_user, current_user, \
 from app import app, db, lm, oid
 from app.models import User, Event, Participant, Friends, Item, Customers, ROLE_USER
 import json
-from app.Utils import Debt, EventItem, create_event
+
+from app.Utils import Debt, EventItem, build_event, create_event
 
 @lm.user_loader
 def load_user(id):
@@ -81,10 +82,10 @@ def getUser():
 @app.route('/events', methods=['GET', 'POST'])
 @login_required
 def events():
-    from app.forms import NewPartyForm
+    from app.users_forms import NewPartyForm
     form = NewPartyForm()
     if form.is_submitted():
-        print(form.data['language'])
+        create_event(form.data['name'], form.data['language'])
 
     user = g.user
     q = db.session.query(User, Event, Participant).filter(
@@ -101,7 +102,7 @@ def events():
 @login_required
 def getEvent(page):
     user = g.user
-    event = create_event(page)
+    event = build_event(page)
     if event is None:
         return render_template('404.html') #TODO 404
     else:
