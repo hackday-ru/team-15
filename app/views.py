@@ -104,11 +104,11 @@ def getEvent(page):
     from app.users_forms import NewItemForm
     form = NewItemForm()
     user = g.user
-    
+
     if form.is_submitted():
         print(form.data['name'], form.data['language'])
-    event = build_event(page)
-    if event is None:
+    res = build_event(page)
+    if res is None:
         return render_template('404.html') #TODO 404
     else:
         return render_template('event.html',user=user, entries=res, form=form)
