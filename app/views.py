@@ -52,13 +52,18 @@ def logout():
     return redirect(url_for('login'))
 
 
+@app.route('/')
+def index():
+    if g.user is not None and g.user.is_authenticated:
+        return redirect(url_for('events'))
+
+    return render_template('index.html')
 
 class Debt:
     def __init__(self, user, debt):
         self.user = user
         self.debt = debt
 
-@app.route('/')
 @app.route('/user')
 @login_required
 def getUser():
@@ -74,7 +79,6 @@ def events():
         title = 'События',
         user = user)
 
-@app.route('/')
 @app.route('/event')
 @login_required
 def getEvent():
