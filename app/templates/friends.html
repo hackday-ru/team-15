@@ -106,20 +106,16 @@
                     <th class="col-md-2">Почта</th>
                 </tr>
             </thead>
-            
+
             <tbody>
+            {% for event in events %}
                 <tr>
                     <td><input type="checkbox" name="deleteCheckBox"/></td>
-                    <td>Шаверма</td>
-                    <td>darklord@gmail.com</td>
+                    <td> {{ user.nickname }}</td>
+                    <td> {{ user.email }} </td>
                 </tr>
-                <tr>
-                    <td><input type="checkbox" name="deleteCheckBox"/></td>
-                    <td>Аркаша</td>
-                    <td>sexygirl1994@gmail.com</td>
-                </tr>
+            {% endfor %}
             </tbody>
-        </table>
     
     <div class="col-lg-10 col-lg-offset-2">
         <button type="reset" class="btn btn-warning">Забыть друга</button>
