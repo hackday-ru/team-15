@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Имя любимое твое</h1>
+<h1>{{ user.nickname }}</h1>
 
 <div class="table-responsive">
+
   <table class="table table-striped table-hover">
     <thead>
       <tr>
@@ -13,47 +14,13 @@
       </tr>
     </thead>
         <tbody>
-          <tr>
-            <td> <input type="checkbox" name="paidCheckBox"/> </td>
-            <td>Table Cell</td>
-            <td>Table Cell</td>
-          </tr>
-          
-          <tr>
-            <td> <input type="checkbox" name="paidCheckBox"/> </td>
-            <td>Table Cell</td>
-            <td>Table Cell</td>
-          </tr>
-          
-          <tr>
-            <td> <input type="checkbox" name="paidCheckBox"/> </td>
-            <td>Table Cell</td>
-            <td>Table Cell</td>
-          </tr>
-          
-          <tr>
-            <td> <input type="checkbox" name="paidCheckBox"/> </td>
-            <td>Table Cell</td>
-            <td>Table Cell</td>
-          </tr>
-          
-          <tr>
-            <td> <input type="checkbox" name="paidCheckBox"/> </td>
-            <td>Table Cell</td>
-            <td>Table Cell</td>
-          </tr>
-          
-          <tr>
-            <td> <input type="checkbox" name="paidCheckBox"/> </td>
-            <td>Table Cell</td>
-            <td>Table Cell</td>
-          </tr>
-          
-          <tr>
-            <td> <input type="checkbox" name="paidCheckBox"/> </td>
-            <td>Table Cell</td>
-            <td>Table Cell</td>
-          </tr>
+            {% for debt in debts %}
+                <tr>
+                    <td> <input type="checkbox" name="paidCheckBox"/> </td>
+                    <td>{{ debt.user }}</td>
+                    <td>{{ debt.debt }}</td>
+                 </tr>
+            {% endfor %}
          </tbody>
     </table>
 </div>
