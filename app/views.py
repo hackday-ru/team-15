@@ -100,7 +100,7 @@ def getEvent(page):
     user = g.user
     event = create_event(page)
     if event is None:
-        return render_template('index.html') #TODO 404
+        return render_template('404.html') #TODO 404
     else:
         return render_template('event.html',user=user, events=[event])
 
