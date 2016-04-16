@@ -73,6 +73,20 @@
             init();
         });
 
+        $('.btn-warning').click(function() {
+            var names = [];
+            $('input:checked').parent().parent().find("td[name='id']").each(function() {
+                names.push(this.attributes.value.value);
+            });
+            names = JSON.stringify(names);
+            $.post({
+                url: "/friends/delete",
+                data: {"data":names},
+                success: function(result) {
+                    location.reload();
+                }
+            });
+        });
 
         $('#get-checked-data').on('click', function (event) {
             event.preventDefault();
@@ -113,7 +127,7 @@
             {% for friend in friends %}
                 <tr>
                     <td><input type="checkbox" name="deleteCheckBox"/></td>
-                    <td name="id" hidden> {{ friend.id }}</td>
+                    <td name="id" value="{{ friend.id }}" hidden> {{ friend.id }}</td>
                     <td> {{ friend.nickname }}</td>
                     <td> {{ friend.email }} </td>
                 </tr>
