@@ -102,11 +102,11 @@ def events():
 @login_required
 def getEvent(page):
     user = g.user
-    event = build_event(page)
-    if event is None:
+    res = build_event(page)
+    if res is None:
         return render_template('404.html') #TODO 404
     else:
-        return render_template('event.html',user=user, events=[event])
+        return render_template('event.html',user=user, entries=res)
 
 
 @app.route('/event_stats')
