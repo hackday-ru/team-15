@@ -40,6 +40,7 @@ class Friends(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     friend_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    debt = db.Column(db.Integer)
     __table_args__ = (UniqueConstraint('user_id', 'friend_id', name='_user_friend_uc'),)
 
 
