@@ -28,6 +28,11 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.nickname
 
+    @staticmethod
+    def get_friends(user):
+        return db.session.query(User, Friends).filter(user.id == Friends.user_id) \
+            .filter(User.id == Friends.friend_id).all()
+
 
 class Friends(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -51,6 +56,7 @@ class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(140))
     cost = db.Column(db.Integer)
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
     owner = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 

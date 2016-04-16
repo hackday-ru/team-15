@@ -3,7 +3,7 @@ from flask.ext.login import login_user, logout_user, current_user, \
     login_required
 from app import app, db, lm, oid
 from app.forms import LoginForm, NewPartyForm
-from app.models import User, Event, Participant, ROLE_USER
+from app.models import User, Event, Participant, Friends, ROLE_USER
 
 
 @lm.user_loader
@@ -120,9 +120,16 @@ def getEventStats():
 @app.route('/')
 @app.route('/friends')
 @login_required
-def getFriends():
+def get_friends():
     user = g.user
+    q = User.get_friends(user)
     return render_template('friends.html',
+                           user=user,
+                           friends=[x.User for x in q])
+
+@app.route('/404')
+@login_required
+def getError():
+    user = g.user
+    return render_template('404.html',
                            user=user)
-
-

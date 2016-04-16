@@ -4,6 +4,7 @@
 
 <script>
     $(function () {
+
         $('.list-group.checked-list-box .list-group-item').each(function () {
 
             // Settings
@@ -72,6 +73,7 @@
             init();
         });
 
+
         $('#get-checked-data').on('click', function (event) {
             event.preventDefault();
             var checkedItems = {}, counter = 0;
@@ -106,20 +108,17 @@
                     <th class="col-md-2">Почта</th>
                 </tr>
             </thead>
-            
+
             <tbody>
+            {% for friend in friends %}
                 <tr>
                     <td><input type="checkbox" name="deleteCheckBox"/></td>
-                    <td>Шаверма</td>
-                    <td>darklord@gmail.com</td>
+                    <td name="id" hidden> {{ friend.id }}</td>
+                    <td> {{ friend.nickname }}</td>
+                    <td> {{ friend.email }} </td>
                 </tr>
-                <tr>
-                    <td><input type="checkbox" name="deleteCheckBox"/></td>
-                    <td>Аркаша</td>
-                    <td>sexygirl1994@gmail.com</td>
-                </tr>
+            {% endfor %}
             </tbody>
-        </table>
     
     <div class="col-lg-10 col-lg-offset-2">
         <button type="reset" class="btn btn-warning">Забыть друга</button>
