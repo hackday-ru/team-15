@@ -67,6 +67,12 @@ class Participant(db.Model):
     __table_args__ = (UniqueConstraint('event_id', 'user_id', name='_user_event_uc'),)
 
 class Item(db.Model):
+    def __init__(self, name1, cost1, event_id1, owner1):
+        self.name = name1
+        self.cost = cost1
+        self.event_id = event_id1
+        self.owner = owner1
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(140))
     cost = db.Column(db.Integer)
@@ -75,6 +81,11 @@ class Item(db.Model):
 
 
 class Customers(db.Model):
+
+    def __init__(self, item_id1, user_id1):
+        self.item_id = item_id1
+        self.user_id = user_id1
+
     id = db.Column(db.Integer, primary_key=True)
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

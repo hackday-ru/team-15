@@ -5,7 +5,7 @@ from app import app, db, lm, oid
 from app.models import User, Event, Participant, Friends, Item, Customers, ROLE_USER
 import json
 
-from app.Utils import Debt, EventItem, build_event, create_event
+from app.Utils import Debt, EventItem, build_event, create_event, create_item
 
 @lm.user_loader
 def load_user(id):
@@ -98,7 +98,7 @@ def events():
                            events=[x.Event for x in q], form=form)
 
 
-@app.route('/event/<int:page>')
+@app.route('/event/<int:page>', methods=['GET', 'POST'])
 @login_required
 def getEvent(page):
     from app.users_forms import NewItemForm
@@ -106,12 +106,13 @@ def getEvent(page):
     user = g.user
 
     if form.is_submitted():
-        print(form.data['name'], form.data['language'])
+        create_item(form.data['goodName'], form.data['cost'], page, user, form.data['language'])
+
     res = build_event(page)
     if res is None:
         return render_template('404.html') #TODO 404
     else:
-        return render_template('event.html',user=user, entries=res, form=form)
+        return render_template('event.html',user=user, entries=res, form=form, page=page)
 
 
 @app.route('/event_stats')
@@ -120,6 +121,17 @@ def getEventStats():
     user = g.user
     return render_template('event_stats.html',
                            user=user)
+
+
+@app.route("/items/delete", methods=['POST'])
+@login_required
+def delete_items():
+    ids = json.loads(request.form["data"])
+    for id1 in ids:
+        Customers.query.filter_by(item_id=id1).delete()
+        Item.query.filter_by(id=id1).delete()
+    db.session.commit()
+    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 
 @app.route('/friends')
