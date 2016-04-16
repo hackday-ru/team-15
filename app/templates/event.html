@@ -119,7 +119,11 @@ $(function () {
               <td>{{ entry.name }}</td>
               <td>{{ entry.cost }}</td>
               <td>{{ entry.owner.nickname }}</td>
-              <td>{{ entry.small_repr }}</td>
+              <td> 
+                <div data-toggle="tooltip" title="{{ entry.full_repr }}">
+                  {{ entry.small_repr }}
+                </div>
+              </td>
 
           </tr>
           {% endfor %}
