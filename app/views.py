@@ -70,3 +70,11 @@ def after_login(resp):
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/')
+@app.route('/user')
+@login_required
+def getUser():
+    user = g.user
+    return render_template('user.html',
+        user=user)
