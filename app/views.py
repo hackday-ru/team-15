@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, \
     login_required
 from app import app, db, lm, oid
-from app.models import User, Event, Participant, Friends, ROLE_USER
+from app.models import User, Event, Participant, Friends, Item, Customers, ROLE_USER
 import json
 
 from app.Utils import Debt, EventItem, build_event, create_event
@@ -101,12 +101,14 @@ def events():
 @app.route('/event/<int:page>')
 @login_required
 def getEvent(page):
+    from app.users_forms import NewItemForm
+    form = NewItemForm()
     user = g.user
     res = build_event(page)
     if res is None:
         return render_template('404.html') #TODO 404
     else:
-        return render_template('event.html',user=user, entries=res)
+        return render_template('event.html',user=user, entries=res, form=form)
 
 
 @app.route('/event_stats')
@@ -134,6 +136,21 @@ def delete_friends():
     for id1 in ids:
         Friends.query.filter_by(user_id=g.user.id, friend_id=int(id1)).delete()
     db.session.commit()
+    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+
+
+@app.route("/friends/add", methods=['POST'])
+@login_required
+def add_friends():
+    user = g.user
+    name = json.loads(request.form["data"])
+    q = User.query.filter(User.nickname.like("%" + name + "%")).all()
+    for f in q:
+        new_friend = Friends(user_id=user.id, friend_id=f.id)
+        db.session.add(new_friend)
+        new_friend = Friends(user_id=f.id, friend_id=user.id)
+        db.session.add(new_friend)
+        db.session.commit()
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 

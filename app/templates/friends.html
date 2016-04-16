@@ -73,6 +73,18 @@
             init();
         });
 
+        $('.btn-primary').click(function() {
+            var txt = $( "input.form-control" ).val()
+            txt = JSON.stringify(txt);
+            $.post({
+                url: "/friends/add",
+                data: {"data":txt},
+                success: function(result) {
+                    location.reload();
+                }
+            });
+        })
+
         $('.btn-warning').click(function() {
             var names = [];
             $('input:checked').parent().parent().find("td[name='id']").each(function() {

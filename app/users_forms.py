@@ -1,7 +1,7 @@
 from flask.ext.wtf import Form
 from flask import g
 from app.models import User
-from wtforms import StringField, BooleanField, SelectMultipleField, SelectField, widgets
+from wtforms import StringField, BooleanField, SelectMultipleField, FloatField, SelectField, widgets
 from wtforms.validators import Required
 from flask_openid import COMMON_PROVIDERS
 from wtforms.widgets.core import HTMLString, html_params
@@ -42,5 +42,12 @@ class MultiCheckboxField(SelectMultipleField):
 
 class NewPartyForm(Form):
     name = StringField(u'Full Name')
+    users = [(g.user.id, "Я")] + [(x.User.id, x.User.nickname) for x in User.get_friends(g.user)]
+    language = MultiCheckboxField(u'Friends', choices=users)
+
+
+class NewItemForm(Form):
+    goodName = StringField(u'Good Name')
+    cost = FloatField(0)
     users = [(g.user.id, "Я")] + [(x.User.id, x.User.nickname) for x in User.get_friends(g.user)]
     language = MultiCheckboxField(u'Friends', choices=users)
