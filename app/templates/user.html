@@ -1,32 +1,75 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>{{ user.nickname }}</h1>
 
-<div class="table-responsive">
+<div class="container">
+    <h1>{{ user.nickname }}</h1>
+    <div class="table-responsive">
 
-    <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th class="col-md-1">Статус</th>
-            <th class="col-md-8">Название</th>
-            <th>Стоимость</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for debt in debts %}
-        <tr>
-            <td><input type="checkbox" name="paidCheckBox"/></td>
-            <td>{{ debt.user }}</td>
-            <td>{{ debt.debt }}</td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+                <th class="col-md-1">Статус</th>
+                <th class="col-md-8">Название</th>
+                <th>Стоимость</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for debt in debts %}
+            <tr>
+                <td><input type="checkbox" name="paidCheckBox"/></td>
+                <td>{{ debt.user }}</td>
+                <td>{{ debt.debt }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <p>
+        <button type="button" class="btn btn-primary">Подтвердить</button>
+    </p>
 </div>
 
-<p>
-    <button type="button" class="btn btn-primary">Подтвердить</button>
-</p>
+<div class="container">
 
+    <div class="row">
+        <div class="col-md-6 col-md-offset-2">
+            <h2>График расходов</h2>
+
+            <canvas id="timeline" width="800" height="400"></canvas>
+            <script>
+                var data = {
+                    labels: ["January", "February", "March", "April", "May", "June", "July"],
+                    datasets: [
+                        {
+                            label: "Мне должны",
+                            fillColor: "rgba(220,220,220,0.2)",
+                            strokeColor: "rgba(220,220,220,1)",
+                            pointColor: "rgba(220,220,220,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(220,220,220,1)",
+                            data: [65, 59, 80, 81, 56, 55, 40]
+                        },
+                        {
+                            label: "Я должен",
+                            fillColor: "rgba(151,187,205,0.2)",
+                            strokeColor: "rgba(151,187,205,1)",
+                            pointColor: "rgba(151,187,205,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(151,187,205,1)",
+                            data: [28, 48, 40, 19, 86, 27, 90]
+                        }
+                    ]
+                };
+
+                var ctx = document.getElementById("timeline").getContext("2d");
+                var myLineChart = new Chart(ctx).Line(data);
+            </script>
+        </div>
+
+    </div>
+</div>
 {% endblock %}

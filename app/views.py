@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm, oid
 from app.forms import LoginForm
-from app.models import User, ROLE_USER, ROLE_ADMIN
+from app.models import User, Event, Participant, ROLE_USER
 
 @lm.user_loader
 def load_user(id):
@@ -36,7 +36,7 @@ def after_login(resp):
         nickname = resp.nickname
         if nickname is None or nickname == "":
             nickname = resp.email.split('@')[0]
-        user = User(nickname = nickname, email = resp.email, role = ROLE_USER)
+        user = User(nickname = nickname, email = resp.email)
         db.session.add(user)
         db.session.commit()
     remember_me = False
@@ -70,9 +70,13 @@ def getUser():
 @login_required
 def events():
     user = g.user
+    q = db.session.query(User, Event, Participant).filter(User.email == user.email). \
+filter(Event.id == Participant.event_id). \
+filter(User.id == Participant.user_id).all()
     return render_template('events.html',
         title = 'События',
-        user = user)
+        user = user,
+        events = [x.Event for x in q])
 
 @app.route('/')
 @app.route('/event')

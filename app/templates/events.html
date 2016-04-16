@@ -135,36 +135,24 @@
             </div>
         </div>
     </div>
+    {% for event in events %}
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="card">
+                    <div class="card-content">
+                        <h4>{{ event.name }}</h4>
+                    </div>
 
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="card">
-                <div class="card-content">
-                    <h4>Новый год</h4>
-                </div>
-
-                <div class="card-action">
-                    <a href="#" target="new_blank">Открыть</a>
-                    <a href="#" target="new_blank">Статистика</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="card">
-                <div class="card-content">
-                    <h4>Попойка</h4>
-                </div>
-
-                <div class="card-action">
-                    <a href="#" target="new_blank">Открыть</a>
-                    <a href="#" target="new_blank">Статистика</a>
+                    <div class="card-action">
+                        <a href="#" target="new_blank">Открыть</a>
+                        <a href="#" target="new_blank">Статистика</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    {% endfor %}
+
+
 
 </div>
 {% endblock %}
