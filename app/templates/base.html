@@ -1,28 +1,28 @@
 <html>
-  <head>
+<head>
     {% if title %}
-    <title>{{title}} - microblog</title>
+    <title>Тугрик. {{title}}</title>
     {% else %}
-    <title>microblog</title>
+    <title></title>
     {% endif %}
-  </head>
-  <body>
-    <div>Microblog:
-        <a href="{{ url_for('index') }}">Home</a>
-        {% if g.user.is_authenticated %}
-        | <a href="{{ url_for('logout') }}">Logout</a>
-        {% endif %}
-    </div>
-    <hr>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul>
-    {% for message in messages %}
-        <li>{{ message }} </li>
-    {% endfor %}
-    </ul>
-    {% endif %}
-    {% endwith %}
-    {% block content %}{% endblock %}
-  </body>
+
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <script src="/static/js/bootstrap.js"></script>
+
+</head>
+<body>
+
+<div class="container-fluid">
+
+<!-- Header  here-->
+Header
+
+<!-- Body here-->
+{% block content %}{% endblock %}
+
+<!-- Footer here-->
+
+</div>
+
+</body>
 </html>
