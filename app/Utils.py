@@ -12,3 +12,4 @@ class EventItem:
 
 def create_event(event_id):
     event = Event.query.filter_by(id=event_id).first()
+    return event
