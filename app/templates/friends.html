@@ -108,11 +108,11 @@
             </thead>
 
             <tbody>
-            {% for event in events %}
+            {% for friend in friends %}
                 <tr>
                     <td><input type="checkbox" name="deleteCheckBox"/></td>
-                    <td> {{ user.nickname }}</td>
-                    <td> {{ user.email }} </td>
+                    <td> {{ friend.nickname }}</td>
+                    <td> {{ friend.email }} </td>
                 </tr>
             {% endfor %}
             </tbody>

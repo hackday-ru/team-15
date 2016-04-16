@@ -28,6 +28,11 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.nickname
 
+    @staticmethod
+    def get_friends(user):
+        return db.session.query(User, Friends).filter(user.id == Friends.user_id) \
+            .filter(User.id == Friends.friend_id).all()
+
 
 class Friends(db.Model):
     id = db.Column(db.Integer, primary_key=True)
