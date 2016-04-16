@@ -27,7 +27,7 @@ def index():
             'body': 'The Avengers movie was so cool!' 
         }
     ]
-    return render_template('index.html',
+    return render_template('events.html',
         title = 'Home',
         user = user,
         posts = posts)
@@ -71,13 +71,20 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+
+
+class Debt:
+    def __init__(self, user, debt):
+        self.user = user
+        self.debt = debt
+
 @app.route('/')
 @app.route('/user')
 @login_required
 def getUser():
     user = g.user
     return render_template('user.html',
-        user=user)
+        user=user, debts=[Debt(user=("user" + str(x)), debt=x*100) for x in range(10)])
 
 @app.route('/events')
 def events():
@@ -85,3 +92,11 @@ def events():
     return render_template('events.html',
         title = 'События',
         user = user)
+
+@app.route('/')
+@app.route('/event')
+@login_required
+def getEvent():
+    user = g.user
+    return render_template('event.html',
+        user=user)
