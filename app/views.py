@@ -3,6 +3,8 @@ from flask.ext.login import login_user, logout_user, current_user, \
     login_required
 from app import app, db, lm, oid
 from app.models import User, Event, Participant, Friends, ROLE_USER
+import json
+
 from app.Utils import Debt, EventItem, build_event, create_event
 
 @lm.user_loader
@@ -80,7 +82,7 @@ def getUser():
 @app.route('/events', methods=['GET', 'POST'])
 @login_required
 def events():
-    from app.forms import NewPartyForm
+    from app.user_forms import NewPartyForm
     form = NewPartyForm()
     if form.is_submitted():
         create_event(form.data['name'], form.data['language'])
@@ -123,6 +125,17 @@ def get_friends():
     return render_template('friends.html',
                            user=user,
                            friends=[x.User for x in q])
+
+
+@app.route("/friends/delete", methods=['POST'])
+@login_required
+def delete_friends():
+    ids = json.loads(request.form["data"])
+    for id1 in ids:
+        Friends.query.filter_by(user_id=g.user.id, friend_id=int(id1)).delete()
+    db.session.commit()
+    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+
 
 @app.route('/404')
 def getError():
