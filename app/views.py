@@ -88,3 +88,11 @@ def getEventStats():
     user = g.user
     return render_template('event_stats.html',
         user=user)
+
+@app.route('/')
+@app.route('/friends')
+@login_required
+def getFriends():
+    user = g.user
+    return render_template('friends.html',
+        user=user)
