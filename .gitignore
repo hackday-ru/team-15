@@ -4,4 +4,3 @@ flask/
 __pycache__
 tmp/associations/https-open.login.yahooapis.com-b'7zqRNWhy5.EKPdEJ9.anF4sU5jI'-b'SMxLac6DtfeGQJX7XfX0.6gZ_NI'
 tmp/nonces/57122c33-https-open.login.yahooapis.com-b'7zqRNWhy5.EKPdEJ9.anF4sU5jI'-b'r38KmxfNeZVKy04o2OhFIrGLPZo'
-app.db
