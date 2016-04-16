@@ -9,8 +9,6 @@
     <script src="/static/js/jquery.js"></script>
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/card.css">
-    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">-->
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>-->
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
@@ -37,11 +35,15 @@
                     <li><a href="/events">Праздники</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+                </ul>
                     {% else %}
+                <ul class="nav navbar-nav">
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                </ul>
                     {% endif %}
 
-                </ul>
             </div>
         </div>
     </nav>
