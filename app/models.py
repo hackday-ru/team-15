@@ -41,12 +41,22 @@ class Friends(db.Model):
 
 
 class Event(db.Model):
+
+    def __init__(self, name1, date1):
+        self.name = name1
+        self.date = date1
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(140))
     date = db.Column(db.DateTime)
 
 
 class Participant(db.Model):
+
+    def __init__(self, user_id1, event_id1):
+        self.user_id = user_id1
+        self.event_id = event_id1
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
