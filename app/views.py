@@ -115,12 +115,12 @@ def getEvent(page):
         return render_template('event.html',user=user, entries=res, form=form, page=page)
 
 
-@app.route('/event_stats')
+@app.route('/event/stats/<int:page>', methods=['GET'])
 @login_required
-def getEventStats():
+def getEventStats(page):
     user = g.user
     return render_template('event_stats.html',
-                           user=user)
+                           user=user, page=page)
 
 
 @app.route("/items/delete", methods=['POST'])
