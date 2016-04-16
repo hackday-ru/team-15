@@ -96,22 +96,17 @@ $(function () {
       </tr>
     </thead>
         <tbody>
+          {% for entry in entries %}
           <tr>
+
               <td><input type="checkbox" name="deleteCheckBox"/></td>
-              <td>Шаверма</td>
-              <td>180</td>
-              <td>Лёнчик</td>
-              <td>Тайный Санта</td>
+              <td>{{ entry.name }}</td>
+              <td>{{ entry.cost }}</td>
+              <td>{{ entry.owner.nickname }}</td>
+              <td>{{ entry.small_repr }}</td>
+
           </tr>
-          <tr>
-            {% for event in events %}
-              <td><input type="checkbox" name="deleteCheckBox"/></td>
-              <td>Шаверма</td>
-              <td>180</td>
-              <td>Лёнчик</td>
-              <td>Тайный Санта</td>
-            {% endfor %}
-          </tr>
+          {% endfor %}
          </tbody>
     </table>
 
@@ -137,9 +132,8 @@ $(function () {
         <h4 class="modal-title" id="eventModalLabel">Добавить покупку</h4>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal">
+        <form action="" class="form-horizontal" methods="post">
           <fieldset>
-            
             <div class="form-group">
               <label for="inputProduct" class="col-lg-2 control-label">Покупка</label>
                 <div class="col-lg-10">
@@ -155,12 +149,7 @@ $(function () {
             </div>
 
             <div class="well" style="max-height: 200px;overflow: auto;">
-                <ul class="list-group checked-list-box">
-                      <li class="list-group-item">Аркаша</li>
-                      <li class="list-group-item">Наташа</li>
-                      <li class="list-group-item">Толик</li>
-                      <li class="list-group-item">Виолетта</li>
-                </ul>
+              {{ form.language(class="list-group") }}
             </div>
 
             <div class="form-group">
