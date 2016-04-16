@@ -83,12 +83,13 @@ def events():
     form = NewPartyForm()
     if form.is_submitted():
         print(form.data['language'])
+
     user = g.user
     q = db.session.query(User, Event, Participant).filter(
         User.email == user.email). \
         filter(Event.id == Participant.event_id). \
         filter(User.id == Participant.user_id).all()
-    return render_template('events_tmp.html',
+    return render_template('events.html',
                            title='События',
                            user=user,
                            events=[x.Event for x in q], form=form)
