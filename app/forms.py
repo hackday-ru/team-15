@@ -1,5 +1,6 @@
 from flask.ext.wtf import Form
 from flask import g
+from app.models import User
 from wtforms import StringField, BooleanField, SelectMultipleField, SelectField, widgets
 from wtforms.validators import Required
 from flask_openid import COMMON_PROVIDERS
@@ -47,6 +48,5 @@ class LoginForm(Form):
 class NewPartyForm(Form):
     name = StringField(u'Full Name')
     # name.field(class_ = 'form_control')
-    #users = [(x.id, x.nickname) for x in g.user.get_friends()]
-    # language = MultiCheckboxField()
-    language = MultiCheckboxField(u'Programming Language', choices=[('cpp', 'C++'), ('py', 'Python'), ('text', 'Plain Text')])
+    users = [(x.User.id, x.User.nickname) for x in User.get_friends(g.user)]
+    language = MultiCheckboxField(u'Friends', choices=users)

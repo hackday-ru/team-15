@@ -2,7 +2,6 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, \
     login_required
 from app import app, db, lm, oid
-from app.forms import LoginForm, NewPartyForm
 from app.models import User, Event, Participant, Friends, ROLE_USER
 from app.Utils import Debt, EventItem, create_event
 
@@ -21,6 +20,7 @@ def before_request():
 def login():
     if g.user is not None and g.user.is_authenticated:
         return redirect(url_for('events'))
+    from app.forms import LoginForm
     form = LoginForm()
     if form.validate_on_submit():
         session['remember_me'] = form.remember_me.data
@@ -80,6 +80,7 @@ def getUser():
 @app.route('/events', methods=['GET', 'POST'])
 @login_required
 def events():
+    from app.forms import NewPartyForm
     form = NewPartyForm()
     if form.is_submitted():
         print(form.data['language'])
