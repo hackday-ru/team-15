@@ -99,11 +99,11 @@ def events():
                            events=[x.Event for x in q], form=form)
 
 
-@app.route('/users/', defaults={'page': 1})
-@app.route('/users/page/<int:page>')
+@app.route('/event/<int:page>')
 @login_required
-def getEvent():
+def getEvent(page):
     user = g.user
+    print(page)
     return render_template('event.html',
                            user=user)
 
