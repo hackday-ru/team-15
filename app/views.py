@@ -108,7 +108,7 @@ def getEvent(page):
     if res is None:
         return render_template('404.html') #TODO 404
     else:
-        return render_template('event.html',user=user, entries=res, form=form)
+        return render_template('event.html',user=user, entries=res, form=form, page=page)
 
 
 @app.route('/event_stats')
@@ -117,6 +117,17 @@ def getEventStats():
     user = g.user
     return render_template('event_stats.html',
                            user=user)
+
+
+@app.route("/items/delete", methods=['POST'])
+@login_required
+def delete_items():
+    ids = json.loads(request.form["data"])
+    for id1 in ids:
+        Customers.query.filter_by(item_id=id1).delete()
+        Item.query.filter_by(id=id1).delete()
+    db.session.commit()
+    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 
 @app.route('/friends')

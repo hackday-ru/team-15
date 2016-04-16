@@ -69,6 +69,21 @@ $(function () {
         }
         init();
     });
+
+    $('.btn-warning').on('click', function(event) {
+        var items = [];
+        $('input:checked').parent().parent().find("td[name='id']").each(function() {
+            items.push(this.attributes.value.value);
+        });
+        items = JSON.stringify(items);
+        $.post({
+            url: "/items/delete",
+            data: {"data":items},
+            success: function(result) {
+                location.reload();
+            }
+        });
+    });
     
     $('#get-checked-data').on('click', function(event) {
         event.preventDefault(); 
@@ -85,7 +100,7 @@ $(function () {
 <h1>Событие</h1>
 
 <div class="table-responsive">
-  <table class="table table-striped table-hover">
+  <table class="table table-striped table-hover items-event" value="{{ page }}">
     <thead>
       <tr>
         <th class="col-md-1">#</th>
@@ -100,6 +115,7 @@ $(function () {
           <tr>
 
               <td><input type="checkbox" name="deleteCheckBox"/></td>
+              <td name="id" value="{{ entry.id }}" hidden>{{ entry.id }}</td>
               <td>{{ entry.name }}</td>
               <td>{{ entry.cost }}</td>
               <td>{{ entry.owner.nickname }}</td>

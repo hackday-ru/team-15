@@ -9,8 +9,9 @@ class Debt:
 
 
 class EventItem:
-    def __init__(self, name1, cost1, owner1, ls, ss):
+    def __init__(self, name1, cost1, owner1, ls, ss, id1):
         #todo pass id's
+        self.id = id1
         self.name = name1
         self.cost = cost1
         self.owner = owner1
@@ -29,7 +30,7 @@ def build_event(event_id):
         parts = [x.User.nickname for x in customers if x.Item.id == item.Item.id]
         large_s = ", ".join(parts)
         small_s = large_s[:7] + "..."
-        res.append(EventItem(item.Item.name, item.Item.cost, item.User, large_s, small_s))
+        res.append(EventItem(item.Item.name, item.Item.cost, item.User, large_s, small_s, item.Item.id))
 
     return res
 
