@@ -33,6 +33,7 @@
                     {% if g.user.is_authenticated %}
                     <li><a href="/user">Мой профиль</a></li>
                     <li><a href="/events">Праздники</a></li>
+                    <li><a href="/friends">Друзья</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="{{ url_for('logout') }}">Выйти</a></li>

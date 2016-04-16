@@ -2,10 +2,9 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, \
     login_required
 from app import app, db, lm, oid
-from app.forms import LoginForm, NewPartyForm
 from app.models import User, Event, Participant, Friends, ROLE_USER
 import json
-
+from app.Utils import Debt, EventItem, create_event
 
 @lm.user_loader
 def load_user(id):
@@ -22,6 +21,7 @@ def before_request():
 def login():
     if g.user is not None and g.user.is_authenticated:
         return redirect(url_for('events'))
+    from app.forms import LoginForm
     form = LoginForm()
     if form.validate_on_submit():
         session['remember_me'] = form.remember_me.data
@@ -67,11 +67,6 @@ def index():
     return render_template('index.html')
 
 
-class Debt:
-    def __init__(self, user, debt):
-        self.user = user
-        self.debt = debt
-
 
 @app.route('/user')
 @login_required
@@ -86,27 +81,31 @@ def getUser():
 @app.route('/events', methods=['GET', 'POST'])
 @login_required
 def events():
+    from app.forms import NewPartyForm
     form = NewPartyForm()
     if form.is_submitted():
         print(form.data['language'])
+
     user = g.user
     q = db.session.query(User, Event, Participant).filter(
         User.email == user.email). \
         filter(Event.id == Participant.event_id). \
         filter(User.id == Participant.user_id).all()
-    return render_template('events_tmp.html',
+    return render_template('events.html',
                            title='События',
                            user=user,
                            events=[x.Event for x in q], form=form)
 
 
-@app.route('/users/', defaults={'page': 1})
-@app.route('/users/page/<int:page>')
+@app.route('/event/<int:page>')
 @login_required
-def getEvent():
+def getEvent(page):
     user = g.user
-    return render_template('event.html',
-                           user=user)
+    event = create_event(page)
+    if event is None:
+        return render_template('404.html') #TODO 404
+    else:
+        return render_template('event.html',user=user, events=[event])
 
 
 @app.route('/event_stats')
@@ -117,7 +116,6 @@ def getEventStats():
                            user=user)
 
 
-@app.route('/')
 @app.route('/friends')
 @login_required
 def get_friends():
@@ -139,8 +137,11 @@ def delete_friends():
 
 
 @app.route('/404')
-@login_required
 def getError():
     user = g.user
     return render_template('404.html',
                            user=user)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
