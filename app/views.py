@@ -1,7 +1,8 @@
 from flask import render_template, flash, redirect, session, url_for, request, g
-from flask.ext.login import login_user, logout_user, current_user, login_required
+from flask.ext.login import login_user, logout_user, current_user, \
+    login_required
 from app import app, db, lm, oid
-from app.forms import LoginForm
+from app.forms import LoginForm, NewPartyForm
 from app.models import User, Event, Participant, Friends, ROLE_USER
 
 
@@ -76,23 +77,30 @@ class Debt:
 def getUser():
     user = g.user
     return render_template('user.html',
-                           user=user, debts=[Debt(user=("user" + str(x)), debt=x * 100) for x in range(10)])
+                           user=user,
+                           debts=[Debt(user=("user" + str(x)), debt=x * 100) for
+                                  x in range(10)])
 
 
-@app.route('/events')
+@app.route('/events', methods=['GET', 'POST'])
 @login_required
 def events():
+    form = NewPartyForm()
+    if form.is_submitted():
+        print(form.data['language'])
     user = g.user
-    q = db.session.query(User, Event, Participant).filter(User.id == user.id). \
+    q = db.session.query(User, Event, Participant).filter(
+        User.email == user.email). \
         filter(Event.id == Participant.event_id). \
         filter(User.id == Participant.user_id).all()
-    return render_template('events.html',
+    return render_template('events_tmp.html',
                            title='События',
                            user=user,
-                           events=[x.Event for x in q])
+                           events=[x.Event for x in q], form=form)
 
 
-@app.route('/event')
+@app.route('/users/', defaults={'page': 1})
+@app.route('/users/page/<int:page>')
 @login_required
 def getEvent():
     user = g.user
@@ -108,6 +116,8 @@ def getEventStats():
                            user=user)
 
 
+@app.route('/')
+
 @app.route('/friends')
 @login_required
 def getFriends():
@@ -116,5 +126,8 @@ def getFriends():
         filter(User.id == Friends.user_id).subquery()
     q = db.session.query(User, subq).filter(User.id == subq.c.friend_id).all()
     return render_template('friends.html',
+                           user=user)
+
+
                            user=user,
                            friends=[x.User for x in q])

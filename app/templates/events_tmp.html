@@ -102,34 +102,16 @@
                     <h4 class="modal-title" id="alleventsModalLabel">Добавить праздник</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal">
-                        <fieldset>
-
-                            <div class="form-group">
+                    <form action="" class="form-horizontal" method="post">
+                        <div class="form-group">
                                 <label for="inputProduct" class="col-lg-2 control-label">Название</label>
                                 <div class="col-lg-10">
-                                    <input type="text" class="form-control" id="inputProduct"
-                                           placeholder="Дэрэшка Димы">
+                                    {{ form.name(size=80) }}
+
                                 </div>
                             </div>
-
-                            <div class="well" style="max-height: 200px;overflow: auto;">
-                                <ul class="list-group checked-list-box">
-                                    <li class="list-group-item">Аркаша</li>
-                                    <li class="list-group-item">Наташа</li>
-                                    <li class="list-group-item">Толик</li>
-                                    <li class="list-group-item">Виолетта</li>
-                                </ul>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-lg-10 col-lg-offset-2">
-                                    <button type="reset" class="btn btn-default">Отмена</button>
-                                    <button type="submit" class="btn btn-primary">Подтвердить</button>
-                                </div>
-                            </div>
-
-                        </fieldset>
+                            {{ form.language }}
+                            <p><input type="submit" value="Sign In"></p>
                     </form>
                 </div>
             </div>
