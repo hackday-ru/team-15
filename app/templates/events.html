@@ -102,56 +102,46 @@
                     <h4 class="modal-title" id="alleventsModalLabel">Добавить праздник</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal">
+                    <form action="" class="form-horizontal" method="post">
                         <fieldset>
-
                             <div class="form-group">
                                 <label for="inputProduct" class="col-lg-2 control-label">Название</label>
                                 <div class="col-lg-10">
-                                    <input type="text" class="form-control" id="inputProduct"
-                                           placeholder="Дэрэшка Димы">
+                                    {{ form.name(class="form-control", placeholder="Дэрэшка Димы") }}
                                 </div>
                             </div>
-
                             <div class="well" style="max-height: 200px;overflow: auto;">
-                                <ul class="list-group checked-list-box">
-                                    <li class="list-group-item">Аркаша</li>
-                                    <li class="list-group-item">Наташа</li>
-                                    <li class="list-group-item">Толик</li>
-                                    <li class="list-group-item">Виолетта</li>
-                                </ul>
+                                {{ form.language(class="list-group") }}
                             </div>
-
                             <div class="form-group">
                                 <div class="col-lg-10 col-lg-offset-2">
                                     <button type="reset" class="btn btn-default">Отмена</button>
                                     <button type="submit" class="btn btn-primary">Подтвердить</button>
                                 </div>
                             </div>
-
                         </fieldset>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    {% for event in events %}
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="card">
-                    <div class="card-content">
-                        <h4>{{ event.name }}</h4>
-                    </div>
 
-                    <div class="card-action">
-                        <a href="#">Открыть</a>
-                        <a href="#">Статистика</a>
-                    </div>
+    {% for event in events %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="card">
+                <div class="card-content">
+                    <h4>{{ event.name }}</h4>
+                </div>
+
+                <div class="card-action">
+                    <a href="#">Открыть</a>
+                    <a href="#">Статистика</a>
                 </div>
             </div>
         </div>
+    </div>
     {% endfor %}
-
 
 
 </div>
