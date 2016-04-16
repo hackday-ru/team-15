@@ -85,3 +85,11 @@ def events():
     return render_template('events.html',
         title = 'События',
         user = user)
+
+@app.route('/')
+@app.route('/event')
+@login_required
+def getEvent():
+    user = g.user
+    return render_template('event.html',
+        user=user)
