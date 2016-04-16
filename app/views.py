@@ -125,3 +125,10 @@ def get_friends():
     return render_template('friends.html',
                            user=user,
                            friends=[x.User for x in q])
+
+@app.route('/404')
+@login_required
+def getError():
+    user = g.user
+    return render_template('404.html',
+                           user=user)
