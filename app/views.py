@@ -114,7 +114,6 @@ def getEventStats():
                            user=user)
 
 
-@app.route('/')
 @app.route('/friends')
 @login_required
 def get_friends():
@@ -125,7 +124,6 @@ def get_friends():
                            friends=[x.User for x in q])
 
 @app.route('/404')
-@login_required
 def getError():
     user = g.user
     return render_template('404.html',
