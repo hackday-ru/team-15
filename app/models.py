@@ -38,8 +38,8 @@ class Event(db.Model):
 
 class Participant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('item.id'))
-    event_id = db.Column(db.Integer, db.ForeignKey('item.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
 
 
 class Item(db.Model):
