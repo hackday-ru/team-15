@@ -126,8 +126,8 @@ def getFriends():
         filter(User.id == Friends.user_id).subquery()
     q = db.session.query(User, subq).filter(User.id == subq.c.friend_id).all()
     return render_template('friends.html',
-                           user=user)
-
-
                            user=user,
                            friends=[x.User for x in q])
+
+
+
