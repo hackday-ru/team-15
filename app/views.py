@@ -4,7 +4,7 @@ from flask.ext.login import login_user, logout_user, current_user, \
 from app import app, db, lm, oid
 from app.forms import LoginForm, NewPartyForm
 from app.models import User, Event, Participant, Friends, ROLE_USER
-
+from app.Utils import Debt, EventItem, create_event
 
 @lm.user_loader
 def load_user(id):
@@ -66,11 +66,6 @@ def index():
     return render_template('index.html')
 
 
-class Debt:
-    def __init__(self, user, debt):
-        self.user = user
-        self.debt = debt
-
 
 @app.route('/user')
 @login_required
@@ -100,13 +95,15 @@ def events():
                            events=[x.Event for x in q], form=form)
 
 
-@app.route('/users/', defaults={'page': 1})
-@app.route('/users/page/<int:page>')
+@app.route('/event/<int:page>')
 @login_required
-def getEvent():
+def getEvent(page):
     user = g.user
-    return render_template('event.html',
-                           user=user)
+    event = create_event(page)
+    if event is None:
+        return render_template('404.html') #TODO 404
+    else:
+        return render_template('event.html',user=user, events=[event])
 
 
 @app.route('/event_stats')
