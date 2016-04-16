@@ -17,6 +17,11 @@ def build_event(event_id):
     return event
 
 def create_event(name, participants):
+    from app import db
     event = Event(name, datetime.datetime.utcnow())
+    db.session.add(event)
+    db.session.flush()
+    db.session.refresh(event)
     for participant in participants:
-        Participant(participant, event.id)
+        db.session.add(Participant(participant, event.id))
+    db.session.commit()

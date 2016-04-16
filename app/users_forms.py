@@ -42,5 +42,5 @@ class MultiCheckboxField(SelectMultipleField):
 
 class NewPartyForm(Form):
     name = StringField(u'Full Name')
-    users = [(x.User.id, x.User.nickname) for x in User.get_friends(g.user)]
+    users = [(g.user.id, "Я")] + [(x.User.id, x.User.nickname) for x in User.get_friends(g.user)]
     language = MultiCheckboxField(u'Friends', choices=users)

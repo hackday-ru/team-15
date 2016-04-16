@@ -82,7 +82,7 @@ def getUser():
 @app.route('/events', methods=['GET', 'POST'])
 @login_required
 def events():
-    from app.user_forms import NewPartyForm
+    from app.users_forms import NewPartyForm
     form = NewPartyForm()
     if form.is_submitted():
         create_event(form.data['name'], form.data['language'])
