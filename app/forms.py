@@ -47,6 +47,5 @@ class LoginForm(Form):
 
 class NewPartyForm(Form):
     name = StringField(u'Full Name')
-    # name.field(class_ = 'form_control')
     users = [(x.User.id, x.User.nickname) for x in User.get_friends(g.user)]
     language = MultiCheckboxField(u'Friends', choices=users)
