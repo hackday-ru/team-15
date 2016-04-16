@@ -46,8 +46,6 @@ class LoginForm(Form):
 
 
 class NewPartyForm(Form):
-    if g.user is not None and g.user.is_authenticated:
-        name = StringField(u'Full Name')
-        # name.field(class_ = 'form_control')
-        users = [(x.User.id, x.User.nickname) for x in User.get_friends(g.user)]
-        language = MultiCheckboxField(u'Friends', choices=users)
+    name = StringField(u'Full Name')
+    users = [(x.User.id, x.User.nickname) for x in User.get_friends(g.user)]
+    language = MultiCheckboxField(u'Friends', choices=users)
