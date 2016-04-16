@@ -1,3 +1,5 @@
+
+from sqlalchemy import UniqueConstraint
 from app import db
 
 ROLE_USER = 0
@@ -38,6 +40,7 @@ class Friends(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     friend_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    __table_args__ = (UniqueConstraint('user_id', 'friend_id', name='_user_friend_uc'),)
 
 
 class Event(db.Model):
@@ -50,7 +53,7 @@ class Participant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     event_id = db.Column(db.Integer, db.ForeignKey('event.id'))
-
+    __table_args__ = (UniqueConstraint('event_id', 'user_id', name='_user_event_uc'),)
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -64,3 +67,4 @@ class Customers(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     item_id = db.Column(db.Integer, db.ForeignKey('item.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    __table_args__ = (UniqueConstraint('item_id', 'user_id', name='_user_item_uc'),)
