@@ -73,10 +73,12 @@ def index():
 @login_required
 def getUser():
     user = g.user
+    q = db.session.query(User, Friends) \
+        .filter(Friends.user_id == user.id) \
+        .filter(Friends.friend_id == User.id).all()
     return render_template('user.html',
                            user=user,
-                           debts=[Debt(user=("user" + str(x)), debt=x * 100) for
-                                  x in range(10)])
+                           debts=[x for x in q])
 
 
 @app.route('/events', methods=['GET', 'POST'])
@@ -130,7 +132,7 @@ def delete_items():
     for id1 in ids:
         customers = Customers.query.filter_by(item_id=id1).all()
         item = Item.query.filter_by(id=id1).first()
-        average_cost = int(item.cost * 100) / len(customers)
+        average_cost = int(int(item.cost * 100) / len(customers))
         for u in customers:
             if item.owner == u.user_id:
                 continue
@@ -144,7 +146,7 @@ def delete_items():
 
         Customers.query.filter_by(item_id=id1).delete()
         Item.query.filter_by(id=id1).delete()
-    db.session.commit()
+        db.session.commit()
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 

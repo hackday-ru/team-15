@@ -19,8 +19,8 @@
             {% for debt in debts %}
             <tr>
                 <td><input type="checkbox" name="paidCheckBox"/></td>
-                <td>{{ debt.user }}</td>
-                <td>{{ debt.debt }}</td>
+                <td>{{ debt.User.nickname }}</td>
+                <td>{{ debt.Friends.debt }}</td>
             </tr>
             {% endfor %}
             </tbody>
