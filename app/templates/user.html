@@ -2,6 +2,28 @@
 
 {% block content %}
 
+<script>
+    $(function () {
+        $('.btn-warning').on('click', function (event) {
+            var users = [];
+            $('input:checked').parent().parent().find("td[name='id']").each(function () {
+                users.push(this.attributes.value.value);
+            });
+            var txt = $('.realise-value').val()
+            if (parseInt(txt) > 0) {
+                users = JSON.stringify({"users": users, "val": txt});
+                $.post({
+                    url: "/release",
+                    data: {"data": users},
+                    success: function (result) {
+                        location.reload();
+                    }
+                });
+            }
+        });
+    });
+</script>
+
 <div class="container">
     <h1>{{ user.nickname }}</h1>
 
@@ -19,7 +41,8 @@
             {% for debt in debts %}
             <tr>
                 <td><input type="checkbox" name="paidCheckBox"/></td>
-                <td>{{ debt.user }}</td>
+                <td name="id" value="{{ debt.id }}" hidden>{{ debt.id}}</td>
+                <td>{{ debt.name }}</td>
                 <td>{{ debt.debt }}</td>
             </tr>
             {% endfor %}
@@ -30,7 +53,7 @@
     <div class="form-group">
       <div class="input-group">
         <span class="input-group-addon">₽</span>
-          <input type="text" width="400">
+          <input class="realise-value" type="number" width="400">
           <button class="btn btn-warning" type="button">Отпустить</button>
       </div>
     </div>

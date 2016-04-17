@@ -68,16 +68,19 @@ def index():
     return render_template('index.html')
 
 
-
 @app.route('/user')
 @login_required
 def getUser():
     user = g.user
-
+    q = db.session.query(User, Friends) \
+        .filter(Friends.user_id == user.id) \
+        .filter(Friends.friend_id == User.id).all()
+    debts = [{"name": x.User.nickname,
+              "debt": int(x.Friends.debt / 100),
+              "id": x.User.id} for x in q]
     return render_template('user.html',
                            user=user,
-                           debts=[Debt(user=("user" + str(x)), debt=x * 100) for
-                                  x in range(10)])
+                           debts=debts)
 
 
 @app.route('/events', methods=['GET', 'POST'])
@@ -113,9 +116,9 @@ def getEvent(page):
 
     res = build_event(page)
     if res is None:
-        return render_template('404.html') #TODO 404
+        return render_template('404.html')  # TODO 404
     else:
-        return render_template('event.html',user=user, entries=res, form=form, page=page)
+        return render_template('event.html', user=user, entries=res, form=form, page=page)
 
 
 @app.route('/event/stats/<int:page>', methods=['GET'])
@@ -135,7 +138,7 @@ def delete_items():
     for id1 in ids:
         customers = Customers.query.filter_by(item_id=id1).all()
         item = Item.query.filter_by(id=id1).first()
-        average_cost = int(item.cost * 100) / len(customers)
+        average_cost = int(int(item.cost * 100) / len(customers))
         for u in customers:
             if item.owner == u.user_id:
                 continue
@@ -149,7 +152,7 @@ def delete_items():
 
         Customers.query.filter_by(item_id=id1).delete()
         Item.query.filter_by(id=id1).delete()
-    db.session.commit()
+        db.session.commit()
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 
@@ -188,11 +191,28 @@ def add_friends():
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 
+@app.route('/release', methods=['POST'])
+@login_required
+def release():
+    user = g.user
+    data = json.loads(request.form["data"])
+    for f in data["users"]:
+        friend = Friends.query.filter_by(user_id=user.id, friend_id=f).first()
+        friend.debt -= int(data["val"]) * 100
+        db.session.commit()
+
+        friend = Friends.query.filter_by(friend_id=user.id, user_id=f).first()
+        friend.debt += int(data["val"]) * 100
+        db.session.commit()
+    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+
+
 @app.route('/404')
 def getError():
     user = g.user
     return render_template('404.html',
                            user=user)
+
 
 @app.errorhandler(404)
 def page_not_found(e):
