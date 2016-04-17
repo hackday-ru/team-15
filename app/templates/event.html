@@ -98,87 +98,89 @@
     });
 </script>
 
-<h1>Событие</h1>
+<div class="container">
+    <h1>Событие / <a href="/event/stats/{{ page }}">Статистика</a></h1>
 
-<div class="table-responsive">
-    <table class="table table-striped table-hover items-event" value="{{ page }}">
-        <thead>
-        <tr>
-            <th class="col-md-1">#</th>
-            <th class="col-md-3">Покупка</th>
-            <th class="col-md-2">Стоимость</th>
-            <th class="col-md-2">Покупитель</th>
-            <th class="col-md-2">Участники</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for entry in entries %}
-        <tr>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover items-event" value="{{ page }}">
+            <thead>
+            <tr>
+                <th class="col-md-1">#</th>
+                <th class="col-md-3">Покупка</th>
+                <th class="col-md-2">Стоимость</th>
+                <th class="col-md-2">Покупитель</th>
+                <th class="col-md-2">Участники</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for entry in entries %}
+            <tr>
 
-            <td><input type="checkbox" name="deleteCheckBox"/></td>
-            <td name="id" value="{{ entry.id }}" hidden>{{ entry.id }}</td>
-            <td>{{ entry.name }}</td>
-            <td>{{ entry.cost }}</td>
-            <td>{{ entry.owner.nickname }}</td>
-            <td>
-                <div data-toggle="tooltip" title="{{ entry.full_repr }}">
-                    {{ entry.small_repr }}
-                </div>
-            </td>
+                <td><input type="checkbox" name="deleteCheckBox"/></td>
+                <td name="id" value="{{ entry.id }}" hidden>{{ entry.id }}</td>
+                <td>{{ entry.name }}</td>
+                <td>{{ entry.cost }}</td>
+                <td>{{ entry.owner.nickname }}</td>
+                <td>
+                    <div data-toggle="tooltip" title="{{ entry.full_repr }}">
+                        {{ entry.small_repr }}
+                    </div>
+                </td>
 
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <div class="form-group">
-        <div class="input-group">
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventModal">
-                Добавить покупку
-            </button>
-            <span> </span>
-            <button type="button" class="btn btn-warning">Удалить выбранное</button>
+        <div class="form-group">
+            <div class="input-group">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#eventModal">
+                    Добавить покупку
+                </button>
+                <span> </span>
+                <button type="button" class="btn btn-warning">Удалить выбранное</button>
+            </div>
         </div>
-    </div>
 
-    <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="eventModalLabel">Добавить покупку</h4>
-                </div>
-                <div class="modal-body">
-                    <form action="" class="form-horizontal" method="post">
-                        <fieldset>
-                            <div class="form-group">
-                                <label for="inputProduct" class="col-lg-2 control-label">Покупка</label>
-                                <div class="col-lg-10">
-                                    {{ form.goodName }}
+        <div class="modal fade" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="eventModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="eventModalLabel">Добавить покупку</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" class="form-horizontal" method="post">
+                            <fieldset>
+                                <div class="form-group">
+                                    <label for="inputProduct" class="col-lg-2 control-label">Покупка</label>
+                                    <div class="col-lg-10">
+                                        {{ form.goodName }}
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                <label for="inputPrice" class="col-lg-2 control-label">Стоимость</label>
-                                <div class="col-lg-10">
-                                    {{ form.cost }}
+                                <div class="form-group">
+                                    <label for="inputPrice" class="col-lg-2 control-label">Стоимость</label>
+                                    <div class="col-lg-10">
+                                        {{ form.cost }}
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="well" style="max-height: 200px;overflow: auto;">
-                                {{ form.language(class="list-group") }}
-                            </div>
-
-                            <div class="form-group">
-                                <div class="col-lg-10 col-lg-offset-2">
-                                    <button type="reset" class="btn btn-default">Отмена</button>
-                                    <button type="submit" class="btn btn-primary">Подтвердить</button>
+                                <div class="well" style="max-height: 200px;overflow: auto;">
+                                    {{ form.language(class="list-group") }}
                                 </div>
-                            </div>
 
-                        </fieldset>
-                    </form>
+                                <div class="form-group">
+                                    <div class="col-lg-10 col-lg-offset-2">
+                                        <button type="reset" class="btn btn-default">Отмена</button>
+                                        <button type="submit" class="btn btn-primary">Подтвердить</button>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
