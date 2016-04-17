@@ -47,17 +47,21 @@ def create_event(name, participants):
 
 def create_item(name, cost, event_id, owner, participants):
     from app import db
-    average_cost = int(cost * 100) / len(participants)
+    average_cost = int(int(cost * 100) / len(participants))
     for p in participants:
 
         if int(p) == owner.id:
             continue
 
         friend = Friends.query.filter_by(user_id=owner.id, friend_id=int(p)).first()
+        if friend.debt is None:
+            friend.debt = 0
         friend.debt += average_cost
         db.session.commit()
 
         friend = Friends.query.filter_by(user_id=int(p), friend_id=owner.id).first()
+        if friend.debt is None:
+            friend.debt = 0
         friend.debt -= average_cost
         db.session.commit()
 
