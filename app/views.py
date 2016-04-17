@@ -83,8 +83,7 @@ def getUser():
 @login_required
 def events():
     from app.users_forms import NewPartyForm
-    form = NewPartyForm()
-    form.update()
+    form = NewPartyForm.new()
     if form.is_submitted():
         create_event(form.data['name'], form.data['language'])
 
@@ -103,7 +102,7 @@ def events():
 @login_required
 def getEvent(page):
     from app.users_forms import NewItemForm
-    form = NewItemForm()
+    form = NewItemForm.new()
     user = g.user
 
     if form.is_submitted():

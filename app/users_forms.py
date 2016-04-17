@@ -41,15 +41,28 @@ class MultiCheckboxField(SelectMultipleField):
 
 
 class NewPartyForm(Form):
-    def update(self):
-        self.users = [(g.user.id, "Я")] + [(x.User.id, x.User.nickname) for x in User.get_friends(g.user)]
 
-    users = []
+    @classmethod
+    def new(cls, *args, **kwargs):
+        form = cls()
+        users = [(g.user.id, "Я")] + [(x.User.id, x.User.nickname) for x in User.get_friends(g.user)]
+        form.language.choices = users
+        return form
+
+
     name = StringField(u'Full Name')
+    users = [(g.user.id, "Я")] + [(x.User.id, x.User.nickname) for x in User.get_friends(g.user)]
     language = MultiCheckboxField(u'Friends', choices=users)
 
 
 class NewItemForm(Form):
+
+    @classmethod
+    def new(cls):
+        form = cls()
+        users = [(g.user.id, "Я")] + [(x.User.id, x.User.nickname) for x in User.get_friends(g.user)]
+        form.language.choices = users
+        return form
     goodName = StringField(u'Good Name')
     cost = FloatField(0)
     users = [(g.user.id, "Я")] + [(x.User.id, x.User.nickname) for x in User.get_friends(g.user)]
