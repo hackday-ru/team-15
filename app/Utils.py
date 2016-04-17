@@ -72,3 +72,8 @@ def create_item(name, cost, event_id, owner, participants):
     for participant in participants:
         db.session.add(Customers(item.id, participant))
     db.session.commit()
+
+class Expenses:
+    def __init__(self, items):
+        self.names = [x.name for x in items]
+        self.costs = [x.cost for x in items]

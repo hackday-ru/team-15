@@ -10,14 +10,16 @@
                 users.push(this.attributes.value.value);
             });
             var txt = $('.realise-value').val()
-            users = JSON.stringify({"users": users, "val": txt});
-            $.post({
-                url: "/release",
-                data: {"data": users},
-                success: function (result) {
-                    location.reload();
-                }
-            });
+            if (parseInt(txt) > 0) {
+                users = JSON.stringify({"users": users, "val": txt});
+                $.post({
+                    url: "/release",
+                    data: {"data": users},
+                    success: function (result) {
+                        location.reload();
+                    }
+                });
+            }
         });
     });
 </script>
@@ -51,7 +53,7 @@
     <div class="form-group">
       <div class="input-group">
         <span class="input-group-addon">₽</span>
-          <input class="realise-value" type="text" width="400">
+          <input class="realise-value" type="number" width="400">
           <button class="btn btn-warning" type="button">Отпустить</button>
       </div>
     </div>
