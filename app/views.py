@@ -84,6 +84,7 @@ def getUser():
 def events():
     from app.users_forms import NewPartyForm
     form = NewPartyForm()
+    form.update()
     if form.is_submitted():
         create_event(form.data['name'], form.data['language'])
 
@@ -128,6 +129,20 @@ def getEventStats(page):
 def delete_items():
     ids = json.loads(request.form["data"])
     for id1 in ids:
+        customers = Customers.query.filter_by(item_id=id1).all()
+        item = Item.query.filter_by(id=id1).first()
+        average_cost = int(item.cost * 100) / len(customers)
+        for u in customers:
+            if item.owner == u.user_id:
+                continue
+            friend = Friends.query.filter_by(user_id=item.owner, friend_id=u.user_id).first()
+            friend.debt -= average_cost
+            db.session.commit()
+
+            friend = Friends.query.filter_by(friend_id=item.owner, user_id=u.user_id).first()
+            friend.debt += average_cost
+            db.session.commit()
+
         Customers.query.filter_by(item_id=id1).delete()
         Item.query.filter_by(id=id1).delete()
     db.session.commit()
@@ -161,9 +176,9 @@ def add_friends():
     name = json.loads(request.form["data"])
     q = User.query.filter(User.nickname.like("%" + name + "%")).all()
     for f in q:
-        new_friend = Friends(user_id=user.id, friend_id=f.id)
+        new_friend = Friends(user_id=user.id, friend_id=f.id, debt=0)
         db.session.add(new_friend)
-        new_friend = Friends(user_id=f.id, friend_id=user.id)
+        new_friend = Friends(user_id=f.id, friend_id=user.id, debt=0)
         db.session.add(new_friend)
         db.session.commit()
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}

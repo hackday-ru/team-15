@@ -1,4 +1,4 @@
-from app.models import Event, Participant, Item, User, Customers
+from app.models import Event, Participant, Item, User, Friends, Customers
 import datetime
 from sqlalchemy.sql import func
 
@@ -47,6 +47,20 @@ def create_event(name, participants):
 
 def create_item(name, cost, event_id, owner, participants):
     from app import db
+    average_cost = int(cost * 100) / len(participants)
+    for p in participants:
+
+        if int(p) == owner.id:
+            continue
+
+        friend = Friends.query.filter_by(user_id=owner.id, friend_id=int(p)).first()
+        friend.debt += average_cost
+        db.session.commit()
+
+        friend = Friends.query.filter_by(user_id=int(p), friend_id=owner.id).first()
+        friend.debt -= average_cost
+        db.session.commit()
+
     item = Item(name, cost, event_id, owner.id)
     db.session.add(item)
     db.session.flush()

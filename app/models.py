@@ -35,6 +35,11 @@ class User(db.Model):
         return db.session.query(User, Friends).filter(user.id == Friends.user_id) \
             .filter(User.id == Friends.friend_id).all()
 
+    @staticmethod
+    def get_total_debt(lender, borrower):
+        friend = Friends.query.filter_by(user_id=lender.id, friend_id=borrower.id).first()
+        return friend.debt
+
 
 class Friends(db.Model):
     id = db.Column(db.Integer, primary_key=True)
