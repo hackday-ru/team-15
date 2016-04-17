@@ -86,6 +86,7 @@ def events():
     form = NewPartyForm.new()
     if form.is_submitted():
         create_event(form.data['name'], form.data['language'])
+        return redirect('/events')
 
     user = g.user
     q = db.session.query(User, Event, Participant).filter(
@@ -107,6 +108,7 @@ def getEvent(page):
 
     if form.is_submitted():
         create_item(form.data['goodName'], form.data['cost'], page, user, form.data['language'])
+        return redirect('event/{}'.format(page))
 
     res = build_event(page)
     if res is None:
