@@ -5,7 +5,7 @@ from app import app, db, lm, oid
 from app.models import User, Event, Participant, Friends, Item, Customers, ROLE_USER
 import json
 
-from app.Utils import Debt, EventItem, build_event, create_event, create_item, Expenses
+from app.Utils import Debt, EventItem, build_event, create_event, create_item, Expenses, create_stats
 
 @lm.user_loader
 def load_user(id):
@@ -123,9 +123,9 @@ def getEvent(page):
 def getEventStats(page):
     user = g.user
     expenses = Expenses(Item.query.filter_by(event_id=page).all())
-
+    soa = create_stats(page)
     return render_template('event_stats.html',
-                           user=user, page=page, expenses=expenses)
+                           user=user, page=page, expenses=expenses, soa=soa)
 
 
 @app.route("/items/delete", methods=['POST'])

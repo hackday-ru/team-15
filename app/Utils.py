@@ -77,3 +77,41 @@ class Expenses:
     def __init__(self, items):
         self.names = [x.name for x in items]
         self.costs = [x.cost for x in items]
+
+
+class SpentOrAte:
+    def __init__(self, names1, paid1, ate1):
+        self.names = names1
+        self.paid = paid1
+        self.ate = ate1
+
+
+def create_stats(event_id):
+    from app import db
+    items = Item.query.filter_by(event_id=event_id).all()
+    q = db.session.query(Item, Customers, User).filter(Item.event_id==event_id).filter(Customers.item_id==Item.id).filter(User.id == Customers.user_id);
+
+    from collections import defaultdict
+    itemCount = defaultdict(int)
+    for query in q:
+        itemCount[query.Item.id] += 1
+
+    ate = defaultdict(int)
+    paid = defaultdict(int)
+    for query in q:
+        ate[query.User.id] += int(query.Item.cost/itemCount[query.Item.id])
+
+    for item in items:
+        paid[item.owner] += item.cost
+
+    names = {(query.User.id, query.User.nickname) for query in q}
+    names1 = []
+    paid1 = []
+    ate1 = []
+    for (id, name) in list(names):
+        names1.append(name)
+        paid1.append(paid[id])
+        ate1.append(ate[id])
+    return SpentOrAte(names1, paid1, ate1)
+
+

@@ -5,7 +5,7 @@
 <!-- fake data -->
 <script>
     var data = {
-        labels: ["Василий", "Аркадий", "Писюн", "Дима"],
+        labels: {{ soa.names | tojson }},
         datasets: [
             {
                 label: "Съел",
@@ -13,7 +13,7 @@
                 strokeColor: "rgba(220,220,220,0.8)",
                 highlightFill: "rgba(220,220,220,0.75)",
                 highlightStroke: "rgba(220,220,220,1)",
-                data: [65, 59, 80, 81]
+                data: {{ soa.ate }}
             },
             {
                 label: "Заплатил",
@@ -21,7 +21,7 @@
                 strokeColor: "rgba(151,187,205,0.8)",
                 highlightFill: "rgba(151,187,205,0.75)",
                 highlightStroke: "rgba(151,187,205,1)",
-                data: [28, 48, 40, 19]
+                data: {{ soa.paid }}
             }
         ]
     };
