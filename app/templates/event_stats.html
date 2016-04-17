@@ -28,7 +28,7 @@
 
 
     var consumes = {
-        labels: ["Ананасики", "Колбаска", "Огурцы", "Мясо", "Сок", "Минералка", "Виноград"],
+        labels: {{ expenses.names | tojson }},
         datasets: [
             {
                 label: "Покупки",
@@ -38,7 +38,7 @@
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(151,187,205,1)",
-                data: [65, 59, 90, 81, 56, 55, 40]
+                data: {{ expenses.costs }}
             }
         ]
     };
