@@ -17,6 +17,11 @@
 
 </head>
 <body>
+<style>
+    .link {
+        font-size: 16px;
+    }
+</style>
 
 <div class="container-fluid">
 
@@ -28,22 +33,22 @@
             </div>
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+                {% if g.user.is_authenticated %}
                 <ul class="nav navbar-nav">
 
-                    {% if g.user.is_authenticated %}
-                    <li><a href="/user">Мой профиль</a></li>
-                    <li><a href="/events">Праздники</a></li>
-                    <li><a href="/friends">Друзья</a></li>
+                    <li><a class="link" href="/user">Мой профиль</a></li>
+                    <li><a class="link" href="/events">Праздники</a></li>
+                    <li><a class="link" href="/friends">Друзья</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ url_for('logout') }}">Выйти</a></li>
+                    <li><a class="link" href="{{ url_for('logout') }}">Выйти</a></li>
                 </ul>
-                    {% else %}
+                {% else %}
                 <ul class="nav navbar-nav">
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                 </ul>
-                    {% endif %}
+                {% endif %}
 
             </div>
         </div>
